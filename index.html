@@ -1,7 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enseñanza - Mi Sitio Web</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a, footer a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header ul li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .course {
+            margin-bottom: 20px;
+        }
+        .course h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <header>
+        <div class="container">
+            <h1>Enseñanza</h1>
+            <nav>
+                <ul>
+                    <li><a href="#curso1">Curso 1</a></li>
+                    <li><a href="#curso2">Curso 2</a></li>
+                    <li><a href="#curso3">Curso 3</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="course" id="curso1">
+                <h2>Curso 1: Matemáticas Básicas</h2>
+                <p>Descripción del curso de matemáticas básicas. Incluye álgebra, geometría y aritmética.</p>
+                <ul>
+                    <li><a href="materiales/curso1/tema1.pdf">Tema 1: Introducción</a></li>
+                    <li><a href="materiales/curso1/tema2.pdf">Tema 2: Números y Operaciones</a></li>
+                    <li><a href="materiales/curso1/tema3.pdf">Tema 3: Ecuaciones Básicas</a></li>
+                </ul>
+            </div>
+            <div class="course" id="curso2">
+                <h2>Curso 2: Cálculo</h2>
+                <p>Descripción del curso de cálculo. Incluye límites, derivadas e integrales.</p>
+                <ul>
+                    <li><a href="materiales/curso2/tema1.pdf">Tema 1: Límites</a></li>
+                    <li><a href="materiales/curso2/tema2.pdf">Tema 2: Derivadas</a></li>
+                    <li><a href="materiales/curso2/tema3.pdf">Tema 3: Integrales</a></li>
+                </ul>
+            </div>
+            <div class="course" id="curso3">
+                <h2>Curso 3: Álgebra Lineal</h2>
+                <p>Descripción del curso de álgebra lineal. Incluye vectores, matrices y espacios vectoriales.</p>
+                <ul>
+                    <li><a href="materiales/curso3/tema1.pdf">Tema 1: Vectores</a></li>
+                    <li><a href="materiales/curso3/tema2.pdf">Tema 2: Matrices</a></li>
+                    <li><a href="materiales/curso3/tema3.pdf">Tema 3: Espacios Vectoriales</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
