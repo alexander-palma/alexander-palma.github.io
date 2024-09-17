@@ -11,101 +11,121 @@
             padding: 0;
             line-height: 1.6;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
+        header, footer {
             background: #333;
             color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #0779e4 3px solid;
+            text-align: center;
+            padding: 20px 0;
         }
-        header a, footer a {
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav a {
             color: #fff;
             text-decoration: none;
             text-transform: uppercase;
             font-size: 16px;
         }
-        header ul {
-            padding: 0;
-            list-style: none;
-        }
-        header ul li {
-            display: inline;
-            padding: 0 20px 0 20px;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 30px;
-        }
         h1 {
-            text-align: center;
-            margin-top: 30px;
+            margin: 20px 0;
         }
-        .content {
-            padding: 20px;
+        .container {
+            width: 80%;
+            margin: auto;
         }
         .course {
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
         .course h2 {
             border-bottom: 1px solid #ccc;
             padding-bottom: 10px;
         }
+        .content ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+        .latex-example {
+            background-color: #f4f4f4;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .latex-example h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>Enseñanza</h1>
-            <nav>
-                <ul>
-                    <li><a href="#curso1">Curso 1</a></li>
-                    <li><a href="#curso2">Curso 2</a></li>
-                    <li><a href="#curso3">Curso 3</a></li>
-                </ul>
-            </nav>
-        </div>
+        <h1>Enseñanza</h1>
+        <nav>
+            <ul>
+                <li><a href="#curso1">Curso 1</a></li>
+                <li><a href="#curso2">Curso 2</a></li>
+                <li><a href="#curso3">Curso 3</a></li>
+                <li><a href="#latex">Ejemplo LaTeX</a></li>
+            </ul>
+        </nav>
     </header>
+
     <div class="container">
         <div class="content">
             <div class="course" id="curso1">
                 <h2>Curso 1: Matemáticas Básicas</h2>
-                <p>Descripción del curso de matemáticas básicas. Incluye álgebra, geometría y aritmética.</p>
+                <p>Álgebra, geometría y aritmética.</p>
                 <ul>
                     <li><a href="materiales/curso1/tema1.pdf">Tema 1: Introducción</a></li>
                     <li><a href="materiales/curso1/tema2.pdf">Tema 2: Números y Operaciones</a></li>
                     <li><a href="materiales/curso1/tema3.pdf">Tema 3: Ecuaciones Básicas</a></li>
                 </ul>
             </div>
+
             <div class="course" id="curso2">
                 <h2>Curso 2: Cálculo</h2>
-                <p>Descripción del curso de cálculo. Incluye límites, derivadas e integrales.</p>
+                <p>Límites, derivadas e integrales.</p>
                 <ul>
                     <li><a href="materiales/curso2/tema1.pdf">Tema 1: Límites</a></li>
                     <li><a href="materiales/curso2/tema2.pdf">Tema 2: Derivadas</a></li>
                     <li><a href="materiales/curso2/tema3.pdf">Tema 3: Integrales</a></li>
                 </ul>
             </div>
+
             <div class="course" id="curso3">
                 <h2>Curso 3: Álgebra Lineal</h2>
-                <p>Descripción del curso de álgebra lineal. Incluye vectores, matrices y espacios vectoriales.</p>
+                <p>Vectores, matrices y espacios vectoriales.</p>
                 <ul>
                     <li><a href="materiales/curso3/tema1.pdf">Tema 1: Vectores</a></li>
                     <li><a href="materiales/curso3/tema2.pdf">Tema 2: Matrices</a></li>
                     <li><a href="materiales/curso3/tema3.pdf">Tema 3: Espacios Vectoriales</a></li>
                 </ul>
             </div>
+
+            <!-- Nueva Sección: Ejemplo de uso de LaTeX -->
+            <div class="latex-example" id="latex">
+                <h2>Ejemplo de uso de LaTeX</h2>
+                <p>En matemáticas, LaTeX es muy útil para escribir fórmulas complejas como:</p>
+                <pre>
+\[
+    E = mc^2
+\]
+
+\[
+    \int_{a}^{b} f(x) \, dx = F(b) - F(a)
+\]
+                </pre>
+                <p>Esta sintaxis te permite representar ecuaciones de manera clara y profesional en tus documentos.</p>
+            </div>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
+
