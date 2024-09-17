@@ -59,6 +59,9 @@
             margin-top: 0;
         }
     </style>
+    <!-- Cargar MathJax para interpretar LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <header>
@@ -109,15 +112,16 @@
             <div class="latex-example" id="latex">
                 <h2>Ejemplo de uso de LaTeX</h2>
                 <p>En matemáticas, LaTeX es muy útil para escribir fórmulas complejas como:</p>
-                <pre>
-\[
-    E = mc^2
-\]
-
-\[
-    \int_{a}^{b} f(x) \, dx = F(b) - F(a)
-\]
-                </pre>
+                <p>
+                    \[
+                        E = mc^2
+                    \]
+                </p>
+                <p>
+                    \[
+                        \int_{a}^{b} f(x) \, dx = F(b) - F(a)
+                    \]
+                </p>
                 <p>Esta sintaxis te permite representar ecuaciones de manera clara y profesional en tus documentos.</p>
             </div>
         </div>
@@ -128,4 +132,5 @@
     </footer>
 </body>
 </html>
+
 
