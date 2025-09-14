@@ -1,17 +1,535 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alexander Palma</title>
+  <style>
+    :root{
+      --bg:#0b1020; /* deep night */
+      --panel:#0f172a; /* slate-900 */
+      --panel-2:#111827; /* gray-900 */
+      --muted:#94a3b8; /* slate-400 */
+      --text:#e5e7eb; /* gray-200 */
+      --brand:#22d3ee; /* cyan-400 */
+      --accent:#a78bfa; /* violet-400 */
+      --ok:#34d399; /* emerald */
+      --warn:#f59e0b; /* amber */
+      --danger:#ef4444; /* red */
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:radial-gradient(1200px 800px at 10% -10%,#1e293b44,transparent),radial-gradient(900px 600px at 110% 10%,#3b82f644,transparent),var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
+    a{color:var(--brand)}
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.6));backdrop-filter: blur(8px);}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    .nav{display:flex;align-items:center;gap:12px;}
+    .nav .brand{font-weight:700;font-size:20px;letter-spacing:.3px}
+    .tabs{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+    .tab{border:1px solid #334155;border-radius:999px;padding:10px 14px;background:#0b1222;cursor:pointer;color:#cbd5e1}
+    .tab[aria-selected="true"], .tab:hover{background:linear-gradient(180deg,#0ea5e980,#0ea5e933);color:#ecfeff;border-color:#22d3ee}
+
+    main .section{display:none}
+    main .section.active{display:block;}
+
+    .card{background: linear-gradient(180deg, #0b1222, #0b1326); border:1px solid #1f2a44; border-radius: var(--radius); padding:18px; box-shadow: 0 10px 30px rgba(0,0,0,.35)}
+    .grid{display:grid; gap:16px}
+    .grid.cols-2{grid-template-columns: 1fr 1fr}
+    @media (max-width: 880px){ .grid.cols-2{grid-template-columns:1fr} }
+    .label{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px}
+    textarea, input[type="text"], input[type="url"], input[type="email"]{width:100%; background:#0a0f1f; border:1px solid #223052; color:var(--text); border-radius:12px; padding:12px 14px}
+    input[type="file"]{width:100%}
+    textarea{min-height:130px;}
+    .btn{border:1px solid #2dd4bf33; background:linear-gradient(180deg,#06b6d4,#0891b2); color:white; padding:10px 14px; border-radius:12px; cursor:pointer}
+    .btn.secondary{background:#111a32;border-color:#334155;color:#e2e8f0}
+    .btn.ghost{background:transparent;border-color:#334155}
+    .btn.warn{background:linear-gradient(180deg,#f59e0b,#b45309)}
+    .btn.danger{background:linear-gradient(180deg,#ef4444,#b91c1c)}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .list{display:grid; gap:10px}
+    .item{display:flex; justify-content:space-between; gap:10px; align-items:center; padding:10px 12px; border:1px dashed #334155; border-radius:12px}
+    .muted{color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #334155;color:#e2e8f0;font-size:12px}
+    .h1{font-size:36px;font-weight:800;margin:8px 0}
+    .h2{font-size:20px;font-weight:700;margin:8px 0}
+    .small{font-size:12px}
+
+    .post{padding:14px;border:1px solid #243254;border-radius:14px}
+    details summary{cursor:pointer}
+    .kbd{border:1px solid #475569;border-bottom-width:3px;border-radius:8px;padding:2px 6px}
+  </style>
+
+  <!-- MathJax: habilita LaTeX con $...$ y $$...$$ en TODAS las secciones -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Markdown para Notes/Blog/About -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <h1>Alexander Palma</h1>
-  <p>Master's student in Mathematics<p>
-  <br><br>
-  <hr>
-  <h2>News</h2>
-  <ul>
-    <li>Since 2023, I have been a Master's student in Mathematics and Applications at the University of Paris-Saclay, with a scholarship awarded by the Jacques Hadamard Foundation under the Sophie Germain program.</li>
-    
-  </ul>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">Alexander Palma</div>
+      <nav class="tabs" role="tablist" aria-label="Secciones">
+        <button class="tab" role="tab" aria-selected="true" data-target="home">Home</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="notes">Notes</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="blog">Blog</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="contact">Contact</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HOME -->
+    <section id="home" class="section active" aria-labelledby="tab-home">
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="label">About Me (Markdown + LaTeX)</div>
+          <textarea id="about-input" placeholder="Escribe sobre ti. Ej: Soy estudiante de Máster en Matemáticas. Puedes usar $e^{i\pi}+1=0$. "></textarea>
+          <div class="row" style="margin-top:10px">
+            <button id="about-save" class="btn">Guardar</button>
+            <button id="about-clear" class="btn ghost">Limpiar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="label">Vista previa</div>
+          <div id="about-view"></div>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <div class="label">Enlaces</div>
+          <div class="row">
+            <input type="text" id="home-link-label" placeholder="Texto del enlace (ej. Google Scholar)"/>
+            <input type="url" id="home-link-url" placeholder="URL (https://...)"/>
+            <button id="home-add-link" class="btn">Agregar</button>
+          </div>
+          <div class="list" id="home-links"></div>
+        </div>
+
+        <div class="card">
+          <div class="label">Archivos</div>
+          <input type="file" id="home-files" multiple />
+          <div class="small muted" style="margin-top:6px">Se almacenan localmente (navegador). Puedes subir PDFs, imágenes, etc.</div>
+          <div class="list" id="home-files-list" style="margin-top:10px"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="row" style="justify-content:space-between;align-items:baseline">
+          <div>
+            <div class="label">News</div>
+            <div class="small muted">Añade novedades. Soporta LaTeX.</div>
+          </div>
+          <div class="row">
+            <input type="text" id="news-text" placeholder="Texto de la noticia" style="min-width:260px"/>
+            <button id="news-add" class="btn">Agregar</button>
+          </div>
+        </div>
+        <div id="news-list" class="list" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section id="notes" class="section" aria-labelledby="tab-notes">
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="label">Nueva nota (Markdown + LaTeX)</div>
+          <input type="text" id="note-title" placeholder="Título de la nota"/>
+          <textarea id="note-content" placeholder="Contenido de la nota. Puedes incluir enlaces y fórmulas como $\\int_0^1 x^2 \\,dx$. "></textarea>
+          <div class="h2">Adjuntos</div>
+          <div class="label">Enlaces</div>
+          <div class="row">
+            <input type="text" id="note-link-label" placeholder="Texto"/>
+            <input type="url" id="note-link-url" placeholder="https://..."/>
+            <button id="note-add-link" class="btn secondary">Añadir enlace</button>
+          </div>
+          <div id="note-links" class="list" style="margin-top:10px"></div>
+          <div class="label" style="margin-top:10px">Archivos</div>
+          <input type="file" id="note-files" multiple />
+          <div id="note-files-list" class="list" style="margin-top:10px"></div>
+          <div class="row" style="margin-top:12px">
+            <button id="note-save" class="btn">Guardar nota</button>
+            <button id="note-clear" class="btn ghost">Limpiar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="label">Notas guardadas</div>
+          <div id="notes-list" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog" class="section" aria-labelledby="tab-blog">
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="label">Nueva entrada (Markdown + LaTeX)</div>
+          <input type="text" id="post-title" placeholder="Título"/>
+          <textarea id="post-content" placeholder="Escribe en Markdown. Ej: $$E=mc^2$$"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button id="post-add" class="btn">Publicar</button>
+            <button id="post-clear" class="btn ghost">Limpiar</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="label">Entradas</div>
+          <div id="posts-list" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section" aria-labelledby="tab-contact">
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="label">Contáctame</div>
+          <input type="text" id="contact-name" placeholder="Tu nombre"/>
+          <input type="email" id="contact-email" placeholder="Tu email"/>
+          <textarea id="contact-msg" placeholder="Tu mensaje"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button id="contact-send" class="btn">Enviar</button>
+            <button id="contact-clear" class="btn ghost">Limpiar</button>
+          </div>
+          <div class="small muted" style="margin-top:8px">Se abrirá tu cliente de correo con un <span class="mono">mailto:</span>. Modifica la constante <span class="mono">CONTACT_EMAIL</span> en el código.</div>
+        </div>
+        <div class="card">
+          <div class="label">Información</div>
+          <p>Puedes incluir fórmulas aquí también: $$e^{i\pi} + 1 = 0$$.</p>
+          <p class="small muted">Sugerencia: exporta/importa tus datos (botón abajo) para hacer respaldo.</p>
+          <div class="row" style="margin-top:12px; gap:8px; flex-wrap:wrap">
+            <button id="export-data" class="btn secondary">Exportar datos</button>
+            <label class="btn ghost" for="import-data" style="cursor:pointer">Importar datos</label>
+            <input type="file" id="import-data" accept="application/json" style="display:none"/>
+            <button id="wipe-data" class="btn danger">Borrar todo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ===== Config =====
+    const CONTACT_EMAIL = 'alexander.palma@example.com'; // <-- cámbialo
+
+    // ===== Helpers =====
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+    const J = {
+      load(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } },
+      save(k, v){ localStorage.setItem(k, JSON.stringify(v)); }
+    };
+
+    const readFileAsDataURL = (file) => new Promise((resolve,reject)=>{
+      const fr = new FileReader();
+      fr.onerror = () => reject(fr.error);
+      fr.onload = () => resolve({ name:file.name, type:file.type, size:file.size, dataURL: fr.result });
+      fr.readAsDataURL(file);
+    });
+
+    function download(filename, text){
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], {type:'application/json'}));
+      a.download = filename; a.click(); URL.revokeObjectURL(a.href);
+    }
+
+    function renderMarkdownTo(el, md){
+      const html = marked.parse(md || '');
+      el.innerHTML = html;
+      if (window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([el]); }
+    }
+
+    function formatBytes(b){ if(!b && b!==0) return ''; const u=['B','KB','MB','GB']; let i=0; while(b>=1024 && i<u.length-1){ b/=1024; i++; } return b.toFixed(1)+' '+u[i]; }
+
+    // ===== Nav (SPA) =====
+    $$('.tab').forEach(btn=>btn.addEventListener('click', ()=>{
+      const target = btn.dataset.target;
+      $$('.tab').forEach(b=>b.setAttribute('aria-selected', b===btn?'true':'false'));
+      $$('.section').forEach(sec=>sec.classList.toggle('active', sec.id===target));
+      // Re-render MathJax for visible section
+      const sec = document.getElementById(target);
+      if (window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([sec]); }
+    }));
+
+    // ===== STATE =====
+    const state = {
+      about: J.load('about', ''),
+      homeLinks: J.load('homeLinks', []), // {id,label,url}
+      homeFiles: J.load('homeFiles', []), // {id,name,type,size,dataURL}
+      news: J.load('news', []),           // {id,text,ts}
+      notes: J.load('notes', []),         // {id,title,content,links,files,ts}
+      posts: J.load('posts', [])          // {id,title,content,ts}
+    };
+
+    // ===== HOME: About =====
+    const aboutInput = $('#about-input');
+    const aboutView = $('#about-view');
+    $('#about-save').onclick = () => {
+      state.about = aboutInput.value;
+      J.save('about', state.about);
+      renderMarkdownTo(aboutView, state.about);
+    };
+    $('#about-clear').onclick = () => { aboutInput.value=''; };
+
+    // ===== HOME: Links =====
+    function renderHomeLinks(){
+      const c = $('#home-links'); c.innerHTML='';
+      if(!state.homeLinks.length){ c.innerHTML = '<div class="muted small">Aún no hay enlaces.</div>'; return; }
+      state.homeLinks.forEach(link=>{
+        const div = document.createElement('div');
+        div.className='item';
+        div.innerHTML = `<span><a href="${link.url}" target="_blank" rel="noopener">${link.label||link.url}</a></span>`;
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Eliminar';
+        del.onclick = () => { state.homeLinks = state.homeLinks.filter(x=>x.id!==link.id); J.save('homeLinks', state.homeLinks); renderHomeLinks(); };
+        div.append(del); c.append(div);
+      });
+    }
+    $('#home-add-link').onclick = () => {
+      const label = $('#home-link-label').value.trim();
+      const url = $('#home-link-url').value.trim();
+      if(!url) return alert('URL requerida');
+      state.homeLinks.push({id:uid(), label, url});
+      J.save('homeLinks', state.homeLinks);
+      $('#home-link-label').value=''; $('#home-link-url').value='';
+      renderHomeLinks();
+    };
+
+    // ===== HOME: Files =====
+    async function addHomeFiles(files){
+      const arr = await Promise.all([...files].map(readFileAsDataURL));
+      arr.forEach(f=> state.homeFiles.push({id:uid(), ...f}));
+      J.save('homeFiles', state.homeFiles);
+      renderHomeFiles();
+    }
+    $('#home-files').addEventListener('change', (e)=> addHomeFiles(e.target.files));
+
+    function renderHomeFiles(){
+      const c = $('#home-files-list'); c.innerHTML='';
+      if(!state.homeFiles.length){ c.innerHTML = '<div class="muted small">Aún no hay archivos.</div>'; return; }
+      state.homeFiles.forEach(f=>{
+        const div = document.createElement('div'); div.className='item';
+        const a = document.createElement('a'); a.href=f.dataURL; a.download=f.name; a.textContent = `${f.name} · ${formatBytes(f.size)}`;
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Eliminar';
+        del.onclick = () => { state.homeFiles = state.homeFiles.filter(x=>x.id!==f.id); J.save('homeFiles', state.homeFiles); renderHomeFiles(); };
+        div.append(a); div.append(del); c.append(div);
+      })
+    }
+
+    // ===== HOME: News =====
+    function renderNews(){
+      const c = $('#news-list'); c.innerHTML='';
+      if(!state.news.length){ c.innerHTML = '<div class="muted small">Aún no hay noticias.</div>'; return; }
+      state.news.slice().reverse().forEach(n=>{
+        const div = document.createElement('div'); div.className='post';
+        const when = new Date(n.ts).toLocaleDateString();
+        div.innerHTML = `<div class="small muted">${when}</div><div class="news-item"></div>`;
+        const content = div.querySelector('.news-item');
+        renderMarkdownTo(content, n.text);
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Eliminar'; del.style.marginTop='8px';
+        del.onclick = () => { state.news = state.news.filter(x=>x.id!==n.id); J.save('news', state.news); renderNews(); };
+        div.append(del); c.append(div);
+      })
+    }
+    $('#news-add').onclick = () => {
+      const t = $('#news-text').value.trim(); if(!t) return;
+      state.news.push({id:uid(), text:t, ts: Date.now()});
+      J.save('news', state.news); $('#news-text').value=''; renderNews();
+    };
+
+    // ===== NOTES =====
+    const noteTemp = { links:[], files:[] };
+
+    function renderTempNote(){
+      // links
+      const l = $('#note-links'); l.innerHTML='';
+      if(!noteTemp.links.length){ l.innerHTML='<div class="muted small">Sin enlaces.</div>'; }
+      noteTemp.links.forEach(it=>{
+        const div = document.createElement('div'); div.className='item';
+        div.innerHTML = `<span><a href="${it.url}" target="_blank" rel="noopener">${it.label||it.url}</a></span>`;
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Quitar';
+        del.onclick = () => { noteTemp.links = noteTemp.links.filter(x=>x.id!==it.id); renderTempNote(); };
+        div.append(del); l.append(div);
+      });
+      // files
+      const f = $('#note-files-list'); f.innerHTML='';
+      if(!noteTemp.files.length){ f.innerHTML='<div class="muted small">Sin archivos.</div>'; }
+      noteTemp.files.forEach(file=>{
+        const div = document.createElement('div'); div.className='item';
+        const a = document.createElement('a'); a.href=file.dataURL; a.download=file.name; a.textContent = `${file.name} · ${formatBytes(file.size)}`;
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Quitar';
+        del.onclick = () => { noteTemp.files = noteTemp.files.filter(x=>x.id!==file.id); renderTempNote(); };
+        div.append(a); div.append(del); f.append(div);
+      });
+    }
+
+    $('#note-add-link').onclick = () => {
+      const label = $('#note-link-label').value.trim();
+      const url = $('#note-link-url').value.trim(); if(!url) return alert('URL requerida');
+      noteTemp.links.push({id:uid(), label, url});
+      $('#note-link-label').value=''; $('#note-link-url').value='';
+      renderTempNote();
+    };
+
+    $('#note-files').addEventListener('change', async (e)=>{
+      const arr = await Promise.all([...e.target.files].map(readFileAsDataURL));
+      arr.forEach(f=> noteTemp.files.push({id:uid(), ...f}));
+      renderTempNote();
+    });
+
+    function renderNotes(){
+      const c = $('#notes-list'); c.innerHTML='';
+      if(!state.notes.length){ c.innerHTML='<div class="muted small">Aún no has guardado notas.</div>'; return; }
+      state.notes.slice().reverse().forEach(n=>{
+        const wrapper = document.createElement('div'); wrapper.className='post';
+        const when = new Date(n.ts).toLocaleString();
+        wrapper.innerHTML = `<div class="small muted">${when}</div>`;
+        const det = document.createElement('details');
+        det.open = false;
+        det.innerHTML = `<summary><strong>${n.title || '(Sin título)'}</strong></summary>`;
+        const body = document.createElement('div');
+        const content = document.createElement('div');
+        renderMarkdownTo(content, n.content);
+        body.append(content);
+        if(n.links?.length){
+          const div = document.createElement('div'); div.style.marginTop='8px';
+          div.innerHTML = '<div class="label">Enlaces</div>';
+          n.links.forEach(it=>{
+            const p = document.createElement('div'); p.innerHTML = `<a href="${it.url}" target="_blank" rel="noopener">${it.label||it.url}</a>`; div.append(p);
+          });
+          body.append(div);
+        }
+        if(n.files?.length){
+          const div = document.createElement('div'); div.style.marginTop='8px';
+          div.innerHTML = '<div class="label">Archivos</div>';
+          n.files.forEach(f=>{
+            const p = document.createElement('div');
+            const a = document.createElement('a'); a.href=f.dataURL; a.download=f.name; a.textContent = `${f.name} · ${formatBytes(f.size)}`; p.append(a);
+            div.append(p);
+          });
+          body.append(div);
+        }
+        const actions = document.createElement('div'); actions.className='row'; actions.style.marginTop='10px';
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Eliminar';
+        del.onclick = () => { state.notes = state.notes.filter(x=>x.id!==n.id); J.save('notes', state.notes); renderNotes(); };
+        actions.append(del);
+        body.append(actions);
+        det.append(body); wrapper.append(det); c.append(wrapper);
+      });
+    }
+
+    $('#note-save').onclick = () => {
+      const title = $('#note-title').value.trim();
+      const content = $('#note-content').value;
+      state.notes.push({ id:uid(), title, content, links:[...noteTemp.links], files:[...noteTemp.files], ts: Date.now() });
+      J.save('notes', state.notes);
+      // reset temp form
+      $('#note-title').value=''; $('#note-content').value=''; noteTemp.links=[]; noteTemp.files=[]; renderTempNote();
+      renderNotes();
+    };
+    $('#note-clear').onclick = () => { $('#note-title').value=''; $('#note-content').value=''; noteTemp.links=[]; noteTemp.files=[]; renderTempNote(); };
+
+    // ===== BLOG =====
+    function renderPosts(){
+      const c = $('#posts-list'); c.innerHTML='';
+      if(!state.posts.length){ c.innerHTML='<div class="muted small">Aún no hay entradas.</div>'; return; }
+      state.posts.slice().reverse().forEach(p=>{
+        const item = document.createElement('div'); item.className='post';
+        const when = new Date(p.ts).toLocaleString();
+        const title = document.createElement('div'); title.className='h2'; title.textContent = p.title || '(Sin título)';
+        const meta = document.createElement('div'); meta.className='small muted'; meta.textContent = when;
+        const content = document.createElement('div');
+        renderMarkdownTo(content, p.content);
+        const actions = document.createElement('div'); actions.className='row'; actions.style.marginTop='10px';
+        const del = document.createElement('button'); del.className='btn ghost'; del.textContent='Eliminar';
+        del.onclick = () => { state.posts = state.posts.filter(x=>x.id!==p.id); J.save('posts', state.posts); renderPosts(); };
+        actions.append(del);
+        item.append(title, meta, content, actions); c.append(item);
+      });
+    }
+
+    $('#post-add').onclick = () => {
+      const title = $('#post-title').value.trim();
+      const content = $('#post-content').value;
+      if(!content && !title) return alert('Escribe algo');
+      state.posts.push({ id:uid(), title, content, ts: Date.now() });
+      J.save('posts', state.posts);
+      $('#post-title').value=''; $('#post-content').value='';
+      renderPosts();
+    };
+    $('#post-clear').onclick = () => { $('#post-title').value=''; $('#post-content').value=''; };
+
+    // ===== CONTACT =====
+    $('#contact-send').onclick = () => {
+      const name = encodeURIComponent($('#contact-name').value.trim());
+      const from = encodeURIComponent($('#contact-email').value.trim());
+      const msg = encodeURIComponent($('#contact-msg').value.trim());
+      const subject = encodeURIComponent(`[Web] Mensaje de ${name||'Contacto'}`);
+      const body = `De: ${name}%0D%0AEmail: ${from}%0D%0A%0D%0A${msg}`;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    };
+    $('#contact-clear').onclick = () => { $('#contact-name').value=''; $('#contact-email').value=''; $('#contact-msg').value=''; };
+
+    // ===== Export / Import / Wipe =====
+    $('#export-data').onclick = () => {
+      const payload = JSON.stringify(state);
+      download('alexander_palma_portfolio.json', payload);
+    };
+    $('#import-data').addEventListener('change', async (e)=>{
+      const file = e.target.files?.[0]; if(!file) return;
+      const text = await file.text();
+      try{
+        const data = JSON.parse(text);
+        // Defensive merge
+        ['about','homeLinks','homeFiles','news','notes','posts'].forEach(k=>{ if(k in data) state[k] = data[k]; });
+        Object.entries(state).forEach(([k,v])=> J.save(k,v));
+        bootRender(); alert('Datos importados');
+      }catch(err){ alert('Archivo inválido'); }
+      e.target.value='';
+    });
+    $('#wipe-data').onclick = () => {
+      if(confirm('Esto borrará todo el contenido guardado localmente. ¿Continuar?')){
+        ['about','homeLinks','homeFiles','news','notes','posts'].forEach(k=> localStorage.removeItem(k));
+        state.about=''; state.homeLinks=[]; state.homeFiles=[]; state.news=[]; state.notes=[]; state.posts=[];
+        bootRender();
+      }
+    };
+
+    // ===== Inicialización =====
+    function bootRender(){
+      aboutInput.value = state.about || `Master's student in Mathematics`;
+      renderMarkdownTo(aboutView, state.about || '');
+      renderHomeLinks();
+      renderHomeFiles();
+      renderNews();
+      renderNotes();
+      renderTempNote();
+      renderPosts();
+      if (window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise(); }
+    }
+
+    // Seed inicial de News (una vez)
+    (function seedNews(){
+      if(!localStorage.getItem('seededNewsV1')){
+        state.news.push({ id:uid(), ts: Date.now(), text: 'Since 2023, I have been a Master\'s student in Mathematics and Applications at the University of Paris-Saclay, with a scholarship awarded by the Jacques Hadamard Foundation under the Sophie Germain program.' });
+        J.save('news', state.news); localStorage.setItem('seededNewsV1','1');
+      }
+    })();
+
+    document.addEventListener('DOMContentLoaded', bootRender);
+  </script>
 </body>
 </html>
